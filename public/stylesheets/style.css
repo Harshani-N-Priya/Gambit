@@ -1,8 +1,22 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.navbar-height {
+	height: 86px;
 }
-
-a {
-  color: #00B7FF;
+.button-align {
+	margin-right: 10px;
+}
+.input_element {
+	margin-top: 10px;
+}
+.modal-body {
+	margin-left: 10px;
+}
+.hide {
+	display: none;
+}
+.leave_requests {
+	list-style-type: none;
+}
+.leave_request {
+	margin-top: 50px;
+  margin-right: 40px;
 }
