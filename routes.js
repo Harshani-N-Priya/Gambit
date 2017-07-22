@@ -1,7 +1,9 @@
 module.exports = function(app) {
 	var index = require('./routes/index');
+	var leave_request = require('./routes/leave_requests');
 
 	app.use('/', index);
+	app.use('/leave_requests', leave_request);
 
 	// catch 404 and forward to error handler
 	app.use(function(req, res, next) {

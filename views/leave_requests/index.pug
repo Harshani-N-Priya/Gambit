@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+  ul.leave_requests
+    each leave_request in leave_requests
+      li.leave_request
+        .card
+          .card-header
+            b= leave_request.fromDate 
+            |  - 
+            b= leave_request.toDate
+          .card-block
+            .row
+              .col-2
+                h4.card-title= leave_request.leaveTypeName
+                p.card-text= leave_request.reason
+              .col-2
+                h4.card-title Manager Name
+                p.card-text= leave_request.managerName
+              .col-2
+                h4.card-title Status
+                p.card-text= leave_request.status
