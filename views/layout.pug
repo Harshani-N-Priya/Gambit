@@ -3,10 +3,14 @@ html
   head
     title Gambit
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/jquery-ui.min.css')
+    link(rel='stylesheet', href='/stylesheets/jquery-ui.multidatespicker.css')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css')
     script(src='https://code.jquery.com/jquery-3.1.1.slim.min.js')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    script(src='http://code.jquery.com/ui/1.10.2/jquery-ui.js')
     script(src='/javascripts/index.js')
+    script(src='/javascripts/jquery-ui.multidatespicker.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js')
   body
@@ -20,6 +24,8 @@ html
               button.btn.btn-danger.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')= user
               .dropdown-menu.dropdown-menu-right
                 a.dropdown-item(href='/leave_requests') Leave Requests
+                if is_manager == 1
+                  a.dropdown-item(href='/employee_requests') Employee Requests
                 a.dropdown-item(href='/logout') Logout
           else
             button.btn.btn-primary.button-align(type='button', data-toggle='modal', data-target='#loginModal')

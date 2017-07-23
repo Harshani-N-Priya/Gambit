@@ -1,25 +1,33 @@
 var express = require('express');
 var router = express.Router();
+var model = require('./../model/employee')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', {user: req.session.name});
+  base_params = {
+    user: req.session.name,
+    is_manager: req.session.is_manager
+  };
+  res.render('index', base_params);
 });
 
 router.post('/login', function(req, res, next) {
   var email = req.body.email;
   var password = req.body.password;
-  if(email === "sakthipvmj@gmail.com" && password === "sak")
-  {
-    req.session.email = email;
-    req.session.name = "Sakthivel";
-    req.session.emp_id = 1;
-    res.sendStatus(200); 
-  }
-  else
-  {
-    res.sendStatus(404);
-  }
+  model.get(email, password, function(employees){
+    employee = employees[0];
+    if(employee){
+      req.session.email = employee.email;
+      req.session.name = employee.name;
+      req.session.emp_id = employee.id;
+      req.session.is_manager = employee.is_manager;
+      res.sendStatus(200); 
+    }
+    else
+    {
+      res.sendStatus(404);
+    }
+  });
 });
 
 router.get('/logout', function(req, res, next) {

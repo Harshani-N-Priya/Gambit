@@ -1,10 +1,6 @@
 extends ../layout
 
 block content
-  .row
-    .col-10
-    .col-2
-      a.btn.btn-primary.new_request(href='/leave_requests/new') New Request
   ul.leave_requests
     each leave_request in leave_requests
       li.leave_request
@@ -19,3 +15,6 @@ block content
               .col-2
                 h4.card-title Status
                 p.card-text= leave_request.status
+              .col-2
+                if leave_request.status == 'initiated'
+                  button.btn.btn-success(type='button', onclick="accept(" + leave_request.id + ")") Approve

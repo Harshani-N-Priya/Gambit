@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+  .box-center
+    script(src='/javascripts/leave.js')
+    p= error_message
+    form(method='POST')#new_leave_request
+      .form-group.row
+        label.col-2(for='leaveTypeSelect') Leave Type
+        .col-10
+          select(required = 'required', name = 'leaveType').custom-select.mb-2.mr-sm-2.mb-sm-0
+            each leave_type in leave_types
+              option(value= leave_type.id)= leave_type.name
+      .form-group.row
+        label.col-2.col-form-label Choose Dates
+        .col-10
+          input.form-control#dates(type='text', required='required', name= 'dates')
+      .form-group.row
+        label.col-2.col-form-label Reason
+        .col-10
+          textarea.form-control(type='text', required = 'required',  name= 'reason')
+      button.btn.btn-primary(type='submit') Submit
