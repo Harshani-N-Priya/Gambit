@@ -5,6 +5,21 @@ function getLoginParams() {
   });
   return loginParams;
 }
+function accept(leave_request_id) {
+  $.ajax({
+    url: '/employee_requests/accept',
+    data: {
+      leave_request_id: leave_request_id
+    },
+    error: function() {
+      alert("Accept failed");
+    },
+    success: function(data) {
+      window.location.href = '/employee_requests';
+    },
+    type: 'POST'
+  });
+} 
 $(document).ready(function(){
   $("#loginForm").submit(function(event){
     event.preventDefault();
