@@ -17,4 +17,7 @@ block content
                 p.card-text= leave_request.status
               .col-2
                 if leave_request.status == 'initiated'
-                  button.btn.btn-success(type='button', onclick="accept(" + leave_request.id + ")") Approve
+                  .card-title
+                    button.btn.btn-success(type='button', onclick="accept(" + leave_request.id + ")") Approve
+                  .card-text
+                    button.btn.btn-danger(type='button', onclick="reject(" + leave_request.id + ")") Reject

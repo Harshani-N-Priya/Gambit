@@ -5,6 +5,16 @@ function getLoginParams() {
   });
   return loginParams;
 }
+function showSuccessAlert(success_message) {
+  $("#success_alert").html(success_message);
+  $("#success_alert").show();
+  $('#success_alert').delay(7000).fadeOut(400);
+}
+function showFailureAlert(failure_message) {
+  $("#failure_alert").html(failure_message);
+  $("#failure_alert").show();
+  $('#failure_alert').delay(7000).fadeOut(400);
+}
 function accept(leave_request_id) {
   $.ajax({
     url: '/employee_requests/accept',
@@ -12,10 +22,43 @@ function accept(leave_request_id) {
       leave_request_id: leave_request_id
     },
     error: function() {
-      alert("Accept failed");
+      showFailureAlert("Accept failed");
     },
     success: function(data) {
+      showSuccessAlert("Accepted successfully");
       window.location.href = '/employee_requests';
+    },
+    type: 'POST'
+  });
+}
+function reject(leave_request_id) {
+  $.ajax({
+    url: '/employee_requests/reject',
+    data: {
+      leave_request_id: leave_request_id
+    },
+    error: function() {
+      showFailureAlert("Reject failed");
+    },
+    success: function(data) {
+      showSuccessAlert("Rejected successfully");
+      window.location.href = '/employee_requests';
+    },
+    type: 'POST'
+  });
+}
+function cancel(leave_request_id) {
+  $.ajax({
+    url: '/leave_requests/cancel',
+    data: {
+      leave_request_id: leave_request_id
+    },
+    error: function() {
+      showFailureAlert("Cancel failed");
+    },
+    success: function(data) {
+      showSuccessAlert("Cancelled successfully");
+      window.location.href = '/leave_requests';
     },
     type: 'POST'
   });

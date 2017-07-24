@@ -34,3 +34,13 @@
   width: 900px;
   height: 100px;
 }
+.card-title > button, .card-text > button {
+	width: 100px;
+}
+.overlay {
+  position: fixed;
+  width: 800px;
+  top: 0;
+  margin-left: 305px;
+  z-index: 2;
+}
