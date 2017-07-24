@@ -36,6 +36,10 @@ LeaveRequest = {
     var sql_query = "UPDATE leave_requests SET status='" + status + "' WHERE id = " + leave_request_id;
     LeaveRequest.execute(sql_query, callback);
   },
+  cancelRequest: function(leave_request_id, emp_id, status, callback) {
+    var sql_query = "UPDATE leave_requests SET status='" + status + "' WHERE id = " + leave_request_id + " AND emp_id = " +  emp_id;
+    LeaveRequest.execute(sql_query, callback);
+  },
   execute: function(sql_query, callback) {
     console.log(sql_query);
     mysql_adapter.executeQuery(sql_query, function(result){

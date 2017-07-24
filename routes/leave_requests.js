@@ -68,4 +68,29 @@ router.post('/new', function(req, res, next) {
   }
 });
 
+router.post('/cancel', function(req, res, next){
+  if (isAuthenticated(req.session)) {
+    base_params = {
+      user: req.session.name,
+      is_manager: req.session.is_manager
+    };
+    var leave_request_id = req.body.leave_request_id;
+    if(req.session.is_manager == 0){
+      model.cancelRequest(leave_request_id, req.session.emp_id, 'cancelled', function(OkPacket){
+        if(OkPacket.affectedRows == 1){
+          res.sendStatus(200);
+        }
+        else
+        {
+          res.sendStatus(404);
+        }
+      });
+    }
+    else
+    {
+      res.sendStatus(404);
+    }
+  }
+});
+
 module.exports = router;

@@ -15,8 +15,8 @@ router.post('/login', function(req, res, next) {
   var email = req.body.email;
   var password = req.body.password;
   model.get(email, password, function(employees){
-    employee = employees[0];
-    if(employee){
+    if(employees && employees[0]){
+      var employee = employees[0];
       req.session.email = employee.email;
       req.session.name = employee.name;
       req.session.emp_id = employee.id;
