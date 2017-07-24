@@ -38,6 +38,62 @@ router.get('/new', function(req, res, next) {
   }
 });
 
+router.get('/:leave_request_id/edit', function(req, res, next) {
+  if (isAuthenticated(req.session)) {
+    base_params = {
+      user: req.session.name,
+      is_manager: req.session.is_manager
+    };
+    model.loadLeaveTypes(function(leave_types){
+      base_params['leave_types'] = leave_types;
+      model.loadLeaveRequest(req.params.leave_request_id, req.session.emp_id, function(leave_request){
+        if(leave_request){
+          base_params["leave_request"] = leave_request[0];
+          console.log(base_params);
+          res.render('leave_requests/edit', base_params);
+        }
+        else
+        {
+          res.redirect('/leave_requests');
+        }
+      });
+    });
+  } else {
+    res.redirect('/');
+  }
+});
+
+router.post('/:leave_request_id/edit', function(req, res, next) {
+  if (isAuthenticated(req.session)) {
+    base_params = {
+      user: req.session.name,
+      is_manager: req.session.is_manager
+    };
+    var no_of_days = req.body.dates.split(',').length
+    params = {
+      leave_request_id: req.params.leave_request_id,
+      emp_id: req.session.emp_id,
+      from: req.body.dates,
+      type_of_leave_id: req.body.leaveType,
+      no_of_days: no_of_days,
+      reason: req.body.reason
+    };
+    model.updateLeaveRequest(params, function(OkPacket){
+      if(OkPacket.affectedRows == 1){
+        base_params['message'] = 'successfully created';
+        res.redirect('/leave_requests');
+      }
+      else
+      {
+        base_params['error_message'] = 'successfully created';
+        res.render('leave_requests/new', base_params);
+      }
+    });
+  } else {
+    res.redirect('/');
+  }
+});
+
 router.post('/new', function(req, res, next) {
   if (isAuthenticated(req.session)) {
     base_params = {

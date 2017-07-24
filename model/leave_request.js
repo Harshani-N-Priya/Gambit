@@ -24,6 +24,10 @@ LeaveRequest = {
                       "')";
     LeaveRequest.execute(sql_query, callback);
   },
+  updateLeaveRequest: function(params, callback) {
+    var sql_query = "UPDATE leave_requests SET `from` ='" + params.from + "', `type_of_leave_id` =" + params.type_of_leave_id+ ", `no_of_days`="+params.no_of_days+", `reason` = '" + params.reason + "' WHERE id = " + params.leave_request_id + " AND emp_id = " +  params.emp_id;
+    LeaveRequest.execute(sql_query, callback);
+  },
   getRequestsForManager: function(emp_id, callback) {
     var sql_query = 'select lr.id, lr.from, tol.name as leave_type_name, lr.no_of_days, lr.status, lr.reason, lr.approved_on from \
                     leave_requests lr INNER JOIN \
@@ -38,6 +42,10 @@ LeaveRequest = {
   },
   cancelRequest: function(leave_request_id, emp_id, status, callback) {
     var sql_query = "UPDATE leave_requests SET status='" + status + "' WHERE id = " + leave_request_id + " AND emp_id = " +  emp_id;
+    LeaveRequest.execute(sql_query, callback);
+  },
+  loadLeaveRequest: function(leave_request_id, emp_id, callback) {
+    var sql_query = "SELECT * FROM leave_requests WHERE id = " + leave_request_id + " AND emp_id = " + emp_id;
     LeaveRequest.execute(sql_query, callback);
   },
   execute: function(sql_query, callback) {
