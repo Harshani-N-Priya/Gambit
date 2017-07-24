@@ -20,5 +20,8 @@ block content
                 h4.card-title Status
                 p.card-text= leave_request.status
               if leave_request.status == 'initiated'
+                .col-2
                   .card-title
+                    button.btn.btn-info(onclick="window.location='/leave_requests/" + leave_request.id + "/edit'", type='button') Edit
+                  .card-text
                     button.btn.btn-danger(type='button', onclick="cancel(" + leave_request.id + ")") Cancel
