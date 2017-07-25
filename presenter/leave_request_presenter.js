@@ -6,6 +6,7 @@ LeaveRequestPresenter = {
         leave_request = leave_requests[i];
         presented_leave_request = {
           id: leave_request.id,
+          name: leave_request.name,
           leaveTypeName: leave_request.leave_type_name,
           noOfDays: leave_request.no_of_days,
           reason: leave_request.reason,

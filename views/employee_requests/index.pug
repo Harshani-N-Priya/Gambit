@@ -1,23 +1,54 @@
 extends ../layout
 
 block content
-  ul.leave_requests
-    each leave_request in leave_requests
-      li.leave_request
-        .card
-          .card-header
-            b= leave_request.fromDate 
-          .card-block
-            .row
-              .col-2
-                h4.card-title= leave_request.leaveTypeName
-                p.card-text= leave_request.reason
-              .col-2
-                h4.card-title Status
-                p.card-text= leave_request.status
-              .col-2
-                if leave_request.status == 'initiated'
-                  .card-title
-                    button.btn.btn-success(type='button', onclick="accept(" + leave_request.id + ")") Approve
-                  .card-text
-                    button.btn.btn-danger(type='button', onclick="reject(" + leave_request.id + ")") Reject
+  ul.nav.nav-tabs.tabbar(role='tablist')
+    li.nav-item
+      a.nav-link.active(data-toggle='tab', href='#initiated', role='tab') Requests
+    li.nav-item
+      a.nav-link(data-toggle='tab', href='#approved', role='tab') Approved Requests
+  .tab-content
+    #initiated.tab-pane.active(role='tabpanel')
+      ul.leave_requests
+        each leave_request in leave_requests
+          if leave_request.status == 'initiated'
+            li.leave_request
+              .card
+                .card-header
+                  .row
+                    .col-2
+                      b= leave_request.name
+                    .col-2
+                      p= leave_request.fromDate 
+                .card-block
+                  .row
+                    .col-2
+                      h4.card-title= leave_request.leaveTypeName
+                      p.card-text= leave_request.reason
+                    .col-2
+                      h4.card-title Status
+                      p.card-text= leave_request.status
+                    .col-2
+                      .card-title
+                        button.btn.btn-success(type='button', onclick="accept(" + leave_request.id + ")") Approve
+                      .card-text
+                        button.btn.btn-danger(type='button', onclick="reject(" + leave_request.id + ")") Reject
+    #approved.tab-pane(role='tabpanel')
+      ul.leave_requests
+        each leave_request in leave_requests
+          if leave_request.status == 'approved'
+            li.leave_request
+              .card
+                .card-header
+                  .row
+                    .col-2
+                      b= leave_request.name
+                    .col-2
+                      p= leave_request.fromDate 
+                .card-block
+                  .row
+                    .col-2
+                      h4.card-title= leave_request.leaveTypeName
+                      p.card-text= leave_request.reason
+                    .col-2
+                      h4.card-title Status
+                      p.card-text= leave_request.status

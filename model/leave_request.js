@@ -5,7 +5,7 @@ LeaveRequest = {
     var sql_query = 'select lr.id, lr.from, tol.name as leave_type_name, lr.no_of_days, lr.status, lr.reason, lr.approved_on from \
                     leave_requests lr INNER JOIN \
                     employee emp ON lr.emp_id = emp.id INNER JOIN \
-                    type_of_leave tol \
+                    type_of_leave tol ON lr.type_of_leave_id = tol.id \
                     where lr.emp_id = ' + emp_id + ' ORDER BY lr.id DESC';
     LeaveRequest.execute(sql_query, callback);
   },
@@ -29,10 +29,10 @@ LeaveRequest = {
     LeaveRequest.execute(sql_query, callback);
   },
   getRequestsForManager: function(emp_id, callback) {
-    var sql_query = 'select lr.id, lr.from, tol.name as leave_type_name, lr.no_of_days, lr.status, lr.reason, lr.approved_on from \
+    var sql_query = 'select emp.name, lr.id, lr.from, tol.name as leave_type_name, lr.no_of_days, lr.status, lr.reason, lr.approved_on from \
                     leave_requests lr INNER JOIN \
                     employee emp ON lr.emp_id = emp.id INNER JOIN \
-                    type_of_leave tol \
+                    type_of_leave tol ON lr.type_of_leave_id = tol.id \
                     where lr.emp_id IN (select id from employee where manager_id = ' + emp_id + ') ORDER BY lr.id DESC';
     LeaveRequest.execute(sql_query, callback);
   },
@@ -46,6 +46,14 @@ LeaveRequest = {
   },
   loadLeaveRequest: function(leave_request_id, emp_id, callback) {
     var sql_query = "SELECT * FROM leave_requests WHERE id = " + leave_request_id + " AND emp_id = " + emp_id;
+    LeaveRequest.execute(sql_query, callback);
+  },
+  getTotalLeaveDays: function(leave_type_id, emp_id, callback) {
+    var sql_query = "select days from eligibility where `leave_type_id` = " + leave_type_id + " AND category_id IN (select category_id from employee where id = " + emp_id + ")";
+    LeaveRequest.execute(sql_query, callback);
+  },
+  getTotalLeavesTaken: function(leave_type_id, emp_id, callback) {
+    var sql_query = "select `from` from leave_requests where `type_of_leave_id` = " + leave_type_id + " AND emp_id = " + emp_id + " AND status = 'approved'";
     LeaveRequest.execute(sql_query, callback);
   },
   execute: function(sql_query, callback) {
