@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var model = require('./../model/leave_request')
 var presenter = require('./../presenter/leave_request_presenter')
+var _ = require('underscore');
 
 function isAuthenticated(session) {
   return session.email;
@@ -146,6 +147,42 @@ router.post('/cancel', function(req, res, next){
     {
       res.sendStatus(404);
     }
+  }
+});
+
+router.get('/remaining_days', function(req, res, next){
+  if (isAuthenticated(req.session)) {
+    base_params = {
+      user: req.session.name,
+      is_manager: req.session.is_manager
+    };
+    var leave_type_id = req.query.leave_type_id;
+    var date = new Date();
+    var currentYear = date.getFullYear();
+    var emp_id = req.session.emp_id;
+    model.getTotalLeaveDays(leave_type_id, emp_id, function(total_days){
+      if(total_days) {
+        total_days = total_days[0].days;
+        model.getTotalLeavesTaken(leave_type_id, emp_id, function(leave_requests){
+          leave_days = _.flatten(_.map(leave_requests, function(leave_request_dates){
+            return _.map(leave_request_dates.from.replace(/\s/g, '').split(','), function(date){
+              if(date.split('/')[2] == currentYear){
+                return date;
+              };
+            });
+          }));
+          remaining_days = total_days - leave_days.length;
+          res.send({remaining_days: remaining_days});
+        });
+      }
+      else {
+        res.sendStatus(404);
+      }
+    })
+  }
+  else
+  {
+    res.redirect('/');
   }
 });
 
